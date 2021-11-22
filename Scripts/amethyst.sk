@@ -28,6 +28,8 @@ options:
 import:
 
 	org.bukkit.Bukkit
+	me.lucko.spark.api.Spark
+	me.lucko.spark.api.statistic.StatisticWindow
 
 #
 #	Loading
@@ -146,14 +148,31 @@ expression format time[span] %timespan%:
 		return {_time}
 
 #
-#	Get Tick Times
+#	Spark Performance API
 #
 
-# Get Tick Times
-expression mspt:
+# Spark TPS
+expression [spark] tps:
 	return type: number
 	get:
-		return Bukkit.getAverageTickTime()
+		set {_spark} to Bukkit.getServicesManager().getRegistration(Spark.class).getProvider()
+		return {_spark}.tps().poll(StatisticWindow.TicksPerSecond.SECONDS_5)
+
+# Spark MSPT
+expression [spark] mspt:
+	return type: number
+	get:
+		set {_spark} to Bukkit.getServicesManager().getRegistration(Spark.class).getProvider()
+		return {_spark}.mspt().poll(StatisticWindow.MillisPerTick.MINUTES_1).median()
+
+# Spark CPU
+expression [spark] cpu:
+	return type: number
+	get:
+		set {_spark} to Bukkit.getServicesManager().getRegistration(Spark.class).getProvider()
+		return {_spark}.cpuSystem().poll(StatisticWindow.CpuUsage.SECONDS_10)
+
+# Spark CPU System
 
 #
 #	Logging API
