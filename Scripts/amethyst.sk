@@ -1,5 +1,5 @@
 #
-#	Amethyst - 1.0.1-dev
+#	Amethyst - 1.0.1
 #	
 #	Author: Baezor (https://shop.minehut.com/collections/baezor)
 #
@@ -17,7 +17,7 @@ options:
 
 	verbose: true
 	check.version: 12 hours
-	version: 1.0.1-dev
+	version: 1.0.1
 	storage: amethyst
 
 #
