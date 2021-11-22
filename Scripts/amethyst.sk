@@ -27,7 +27,7 @@ options:
 # Load Event
 on load:
 	delete {{@storage}::cache::*}
-	set {_pl::*} to "SkBee", "skript-reflect" and "Skent"
+	set {_pl::*} to "skript-reflect" and "Skent"
 	loop {_pl::*}:
 		if plugin loop-value is not enabled:
 			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
