@@ -10,12 +10,6 @@
 
 # Options
 options:
-	
-	#
-	#	Modules
-	#
-
-	module.log.enabled: true
 
 	#
 	#	Important
