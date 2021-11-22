@@ -21,13 +21,23 @@ options:
 	storage: amethyst
 
 #
+#	Importing
+#
+
+# Import
+import:
+
+	org.bukkit.Bukkit
+	ch.njol.skript.Skript
+
+#
 #	Loading
 #
 
 # Load Event
 on load:
 	delete {{@storage}::cache::*}
-	set {_pl::*} to "skript-reflect" and "Skent"
+	set {_pl::*} to "skript-reflect", "SkBee" and "Skent"
 	loop {_pl::*}:
 		if plugin loop-value is not enabled:
 			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
@@ -76,15 +86,16 @@ on join:
 	send formatted "&dA new version is avaliable for &5Amethyst&d! &dClick %{_link}% &dto download it!" to player
 
 #
-#	Importing
+#	Skript Tab Completions
 #
 
-# Import
-import:
-
-	org.bukkit.Bukkit
-
-	ch.njol.skript.Skript
+# Skript Tab Completions
+on tab complete of "/sk" or "/skript":
+	set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
+	if tab arg-1 = "reload" or "disable":
+		set tab completions for position 2 to enabled scripts
+	if tab arg-1 = "enable":
+		set tab completions for position 2 to disabled scripts
 
 #
 #	Commands
