@@ -28,7 +28,6 @@ options:
 import:
 
 	org.bukkit.Bukkit
-	ch.njol.skript.Skript
 
 #
 #	Loading
@@ -145,6 +144,16 @@ expression format time[span] %timespan%:
 		replace all " hours" or " hour" in {_time} with "h"
 		replace all " days" or " day" in {_time} with "d"
 		return {_time}
+
+#
+#	Get Tick Times
+#
+
+# Get Tick Times
+expression mspt:
+	return type: number
+	get:
+		return Bukkit.getAverageTickTime()
 
 #
 #	Logging API
