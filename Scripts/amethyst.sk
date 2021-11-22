@@ -15,6 +15,7 @@ options:
 	#	Important
 	#
 
+	verbose: true
 	check.version: 12 hours
 	version: 1.0.0
 	storage: amethyst
@@ -34,6 +35,7 @@ on load:
 	set {{@storage}::cache::errors} to {_error}
 
 	parse if plugin "Skent" is enabled:
+		{@verbose} is true
 		wait 3 seconds
 		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
 		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
@@ -52,6 +54,7 @@ on load:
 # Version Checker
 every {@check.version}:
 	parse if plugin "Skent" is enabled:
+		{@verbose} is true
 		wait 3 seconds
 		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
 		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
