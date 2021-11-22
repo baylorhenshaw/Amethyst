@@ -53,6 +53,7 @@ on load:
 every {@check.version}:
 	parse if plugin "Skent" is enabled:
 		wait 3 seconds
+		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
 		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
 			if "{@version}" is not fetched url content:
 				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
