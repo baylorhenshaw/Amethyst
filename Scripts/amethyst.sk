@@ -51,7 +51,7 @@ command /amethyst:
 		send "&dThis server is running version &5{@version}&d of &5Amethyst&d!"
 		if {{@storage}::cache::errors} > 0:
 			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
-
+			
 #
 #	Logging API
 #
@@ -76,18 +76,18 @@ effect log %string% as [a] error:
 #
 
 # Tooltips
-expression tooltip with %strings%:
+expression tooltip %string% with %strings%:
 	return type: string
 	get:
-		loop {_lines::*}:
+		loop expr-2:
 			if {_str} is not set:
 				set {_str} to "%loop-value%"
 			else:
 				set {_str} to "%{_str}%%nl%%loop-value%"
-		return "<tooltip:%{_str}%>%{_text}%<reset>"
+		return "<tooltip:%{_str}%>%expr-1%<reset>"
 
 # Command
-expression [click] command with %string%:
+expression [click] command %string% with %string%:
 	return type: string
 	get:
-		return "<command:%{_command}%>%{_text}%<reset>"
+		return "<command:%expr-1%>%expr-2%<reset>"
