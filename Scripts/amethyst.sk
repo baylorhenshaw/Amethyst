@@ -84,6 +84,8 @@ import:
 
 	org.bukkit.Bukkit
 
+	ch.njol.skript.Skript
+
 #
 #	Commands
 #
@@ -107,7 +109,7 @@ effect log %string% as [a] info:
 # Log Warn
 effect log %string% as [a] warn[ing]:
 	trigger:
-		Bukkit.getLogger().warn(expr-1)
+		Bukkit.getLogger().warning(expr-1)
 
 # Log Error
 effect log %string% as [a] error:
