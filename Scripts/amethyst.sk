@@ -15,6 +15,7 @@ options:
 	#	Important
 	#
 
+	check.version: 12 hours
 	version: 1.0.0
 	storage: amethyst
 
@@ -31,6 +32,46 @@ on load:
 			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
 			add 1 to {_error}
 	set {{@storage}::cache::errors} to {_error}
+
+	parse if plugin "Skent" is enabled:
+		wait 3 seconds
+		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
+			set {_url} to feteched url content
+			set {{@storage}::cache::fetch} to {_url}
+			if "{@version}" is not fetched url content:
+				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
+				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
+				set {{@storage}::cache::newVer} to true
+				broadcast feteched url content
+			else:
+				delete {{@storage}::cache::newVer}
+
+#
+#	Version Checker
+#
+
+# Version Checker
+every {@check.version}:
+	parse if plugin "Skent" is enabled:
+		wait 3 seconds
+		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
+			set {_url} to feteched url content
+			set {{@storage}::cache::fetch} to {_url}
+			if "{@version}" is not fetched url content:
+				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
+				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
+				set {{@storage}::cache::newVer} to true
+				broadcast feteched url content
+			else:
+				delete {{@storage}::cache::newVer}
+
+# Join Event
+on join:
+	player has permission "amethyst.admin"
+	{{@storage}::cache::newVer} is true
+	wait 3 seconds
+	set {_link} to link "https://github.com/Baezor1/Amethyst/releases" with "&5&nhere&r"
+	send formatted "&dA new version is avaliable for &5Amethyst&d! &dClick %{_link}% &dto download it!" to player
 
 #
 #	Importing
@@ -51,7 +92,7 @@ command /amethyst:
 		send "&dThis server is running version &5{@version}&d of &5Amethyst&d!"
 		if {{@storage}::cache::errors} > 0:
 			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
-			
+
 #
 #	Logging API
 #
@@ -91,3 +132,9 @@ expression [click] command %string% with %string%:
 	return type: string
 	get:
 		return "<command:%expr-1%>%expr-2%<reset>"
+
+# Command
+expression [click] link %string% with %string%:
+	return type: string
+	get:
+		return "<link:%expr-1%>%expr-2%<reset>"
