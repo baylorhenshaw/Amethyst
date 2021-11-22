@@ -23,7 +23,7 @@ options:
 
 # Load Event
 on load:
-	log "test" as a error
+	#log "test" as a error
 
 #
 #	Importing
@@ -52,3 +52,24 @@ effect log %string% as [a] warn[ing]:
 effect log %string% as [a] error:
 	trigger:
 		Bukkit.getLogger().severe(expr-1)
+
+#
+#	Text API
+#
+
+# Tooltips
+expression tooltip with %strings%:
+	return type: string
+	get:
+		loop {_lines::*}:
+			if {_str} is not set:
+				set {_str} to "%loop-value%"
+			else:
+				set {_str} to "%{_str}%%nl%%loop-value%"
+		return "<tooltip:%{_str}%>%{_text}%<reset>"
+
+# Command
+expression [click] command with %string%:
+	return type: string
+	get:
+		return "<command:%{_command}%>%{_text}%<reset>"
