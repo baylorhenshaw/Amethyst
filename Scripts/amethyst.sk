@@ -3,3 +3,52 @@
 #	
 #	Author: Baezor (https://shop.minehut.com/collections/baezor)
 #
+
+#
+#	Settings
+#
+
+# Options
+options:
+	
+	#
+	#	Modules
+	#
+
+	module.log.enabled: true
+
+#
+#	Loading
+#
+
+# Load Event
+on load:
+	log "test" as a error
+
+#
+#	Importing
+#
+
+# Import
+import:
+
+	org.bukkit.Bukkit
+
+#
+#	Logging API
+#
+
+# Log Info
+effect log %string% as [a] info:
+	trigger:
+		Bukkit.getLogger().info(expr-1)
+
+# Log Warn
+effect log %string% as [a] warn[ing]:
+	trigger:
+		Bukkit.getLogger().warn(expr-1)
+
+# Log Error
+effect log %string% as [a] error:
+	trigger:
+		Bukkit.getLogger().severe(expr-1)
