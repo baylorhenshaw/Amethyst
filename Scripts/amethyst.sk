@@ -17,13 +17,26 @@ options:
 
 	module.log.enabled: true
 
+	#
+	#	Important
+	#
+
+	version: 1.0.0
+	storage: amethyst
+
 #
 #	Loading
 #
 
 # Load Event
 on load:
-	#log "test" as a error
+	delete {{@storage}::cache::*}
+	set {_pl::*} to "SkBee", "skript-reflect" and "Skent"
+	loop {_pl::*}:
+		if plugin loop-value is not enabled:
+			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
+			add 1 to {_error}
+	set {{@storage}::cache::errors} to {_error}
 
 #
 #	Importing
@@ -33,6 +46,17 @@ on load:
 import:
 
 	org.bukkit.Bukkit
+
+#
+#	Commands
+#
+
+# Amethyst Command
+command /amethyst:
+	trigger:
+		send "&dThis server is running version &5{@version}&d of &5Amethyst&d!"
+		if {{@storage}::cache::errors} > 0:
+			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
 
 #
 #	Logging API
