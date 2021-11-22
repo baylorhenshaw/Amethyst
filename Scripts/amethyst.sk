@@ -109,6 +109,22 @@ command /amethyst:
 			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
 
 #
+#	Uptime Tracker
+#
+
+# Uptime Expression
+expression uptime:
+	return type: timespan
+	get:
+		return difference between now and {{@storage}::start}
+
+# Server Load
+on skript load:
+	
+	# Set Start Varaiable
+	set {{@storage}::start} to now
+
+#
 #	Logging API
 #
 
