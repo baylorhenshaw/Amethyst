@@ -125,6 +125,28 @@ on skript load:
 	set {{@storage}::start} to now
 
 #
+#	Format Timespans
+#
+
+# Format Timespan
+expression format time[span] %timespan%:
+	return type: string
+	get:
+		set {_time} to "%expr-1%"
+		set {_l::*} to split {_time} at " "
+		loop {_l::*}:
+			delete {_i}
+			set {_i} to loop-value parsed as a number
+			{_i} is set
+			set {_i} to floor({_i})
+			replace every "%loop-value%" in {_time} with "%{_i}%"
+		replace all " seconds" or " second" in {_time} with "s"
+		replace all " minutes" or " minute" in {_time} with "m"
+		replace all " hours" or " hour" in {_time} with "h"
+		replace all " days" or " day" in {_time} with "d"
+		return {_time}
+
+#
 #	Logging API
 #
 
