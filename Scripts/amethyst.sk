@@ -35,16 +35,15 @@ on load:
 
 	parse if plugin "Skent" is enabled:
 		wait 3 seconds
+		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
 		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
-			set {_url} to feteched url content
-			set {{@storage}::cache::fetch} to {_url}
 			if "{@version}" is not fetched url content:
 				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
 				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
 				set {{@storage}::cache::newVer} to true
-				broadcast feteched url content
 			else:
 				delete {{@storage}::cache::newVer}
+				log "&8[&dAmethyst&8] &rNo new version found." as info
 
 #
 #	Version Checker
@@ -55,8 +54,6 @@ every {@check.version}:
 	parse if plugin "Skent" is enabled:
 		wait 3 seconds
 		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
-			set {_url} to feteched url content
-			set {{@storage}::cache::fetch} to {_url}
 			if "{@version}" is not fetched url content:
 				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
 				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
@@ -64,6 +61,7 @@ every {@check.version}:
 				broadcast feteched url content
 			else:
 				delete {{@storage}::cache::newVer}
+				log "&8[&dAmethyst&8] &rNo new version found." as info
 
 # Join Event
 on join:
