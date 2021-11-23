@@ -6,5 +6,6 @@ What is Amethyst? Amethyst is a Skript API that brings a bunch of cool features 
 * SkBee
 * skript-reflect
 * Skent (Optional for version checking.)
+* spark (Optional for cpu, mspt, and tps)
 # Documentation
 Click [here](https://github.com/Baezor1/Amethyst/wiki) to view the docs!
