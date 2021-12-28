@@ -1,5 +1,5 @@
 #
-#	Amethyst - 1.1.0-dev
+#	Amethyst - 1.1.0
 #	
 #	Author: Baezor (https://shop.minehut.com/collections/baezor)
 #
@@ -17,7 +17,7 @@ options:
 
 	verbose: true
 	check.version: 12 hours
-	version: 1.1.0-dev
+	version: 1.1.0
 	storage: amethyst
 
 #
@@ -30,84 +30,6 @@ import:
 	org.bukkit.Bukkit
 	me.lucko.spark.api.Spark
 	me.lucko.spark.api.statistic.StatisticWindow
-
-#
-#	Loading
-#
-
-# Load Event
-on load:
-	delete {{@storage}::cache::*}
-	set {_pl::*} to "skript-reflect", "SkBee", "spark" and "Skent"
-	loop {_pl::*}:
-		if plugin loop-value is not enabled:
-			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
-			add 1 to {_error}
-	set {{@storage}::cache::errors} to {_error}
-
-	parse if plugin "Skent" is enabled:
-		{@verbose} is true
-		wait 3 seconds
-		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
-		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
-			if "{@version}" is not fetched url content:
-				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
-				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
-				set {{@storage}::cache::newVer} to true
-			else:
-				delete {{@storage}::cache::newVer}
-				log "&8[&dAmethyst&8] &rNo new version found." as info
-
-#
-#	Version Checker
-#
-
-# Version Checker
-every {@check.version}:
-	parse if plugin "Skent" is enabled:
-		{@verbose} is true
-		wait 3 seconds
-		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
-		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
-			if "{@version}" is not fetched url content:
-				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
-				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
-				set {{@storage}::cache::newVer} to true
-				broadcast feteched url content
-			else:
-				delete {{@storage}::cache::newVer}
-				log "&8[&dAmethyst&8] &rNo new version found." as info
-
-# Join Event
-on join:
-	player has permission "amethyst.admin"
-	{{@storage}::cache::newVer} is true
-	wait 3 seconds
-	set {_link} to link "https://github.com/Baezor1/Amethyst/releases" with "&5&nhere&r"
-	send formatted "&dA new version is avaliable for &5Amethyst&d! &dClick %{_link}% &dto download it!" to player
-
-#
-#	Skript Tab Completions
-#
-
-# Skript Tab Completions
-on tab complete of "/sk" or "/skript":
-	set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
-	if tab arg-1 = "reload" or "disable":
-		set tab completions for position 2 to enabled scripts
-	if tab arg-1 = "enable":
-		set tab completions for position 2 to disabled scripts
-
-#
-#	Commands
-#
-
-# Amethyst Command
-command /amethyst:
-	trigger:
-		send "&dThis server is running version &5{@version}&d of &5Amethyst&d!"
-		if {{@storage}::cache::errors} > 0:
-			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
 
 #
 #	Uptime Tracker
@@ -219,3 +141,81 @@ expression [click] link %string% with %string%:
 	return type: string
 	get:
 		return "<link:%expr-1%>%expr-2%<reset>"
+
+#
+#	Loading
+#
+
+# Load Event
+on load:
+	delete {{@storage}::cache::*}
+	set {_pl::*} to "skript-reflect", "SkBee", "spark" and "Skent"
+	loop {_pl::*}:
+		if plugin loop-value is not enabled:
+			log "&8[&dAmethyst&8]&c Could not find dependency ""%loop-value%""!" as a error
+			add 1 to {_error}
+	set {{@storage}::cache::errors} to {_error}
+
+	parse if plugin "Skent" is enabled:
+		{@verbose} is true
+		wait 3 seconds
+		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
+		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
+			if "{@version}" is not fetched url content:
+				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
+				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
+				set {{@storage}::cache::newVer} to true
+			else:
+				delete {{@storage}::cache::newVer}
+				log "&8[&dAmethyst&8] &rNo new version found." as info
+
+#
+#	Version Checker
+#
+
+# Version Checker
+every {@check.version}:
+	parse if plugin "Skent" is enabled:
+		{@verbose} is true
+		wait 3 seconds
+		log "&8[&dAmethyst&8] &rChecking for new versions..." as info
+		fetch url "https://raw.githubusercontent.com/Baezor1/Amethyst/main/version":
+			if "{@version}" is not fetched url content:
+				log "&8[&dAmethyst&8] &rA new version of &dAmethyst&r is avaliable!" as info
+				log "&8[&dAmethyst&8] &rDownload it at &dhttps://github.com/Baezor1/Amethyst/releases" as info
+				set {{@storage}::cache::newVer} to true
+				broadcast feteched url content
+			else:
+				delete {{@storage}::cache::newVer}
+				log "&8[&dAmethyst&8] &rNo new version found." as info
+
+# Join Event
+on join:
+	player has permission "amethyst.admin"
+	{{@storage}::cache::newVer} is true
+	wait 3 seconds
+	set {_link} to link "https://github.com/Baezor1/Amethyst/releases" with "&5&nhere&r"
+	send formatted "&dA new version is avaliable for &5Amethyst&d! &dClick %{_link}% &dto download it!" to player
+
+#
+#	Skript Tab Completions
+#
+
+# Skript Tab Completions
+on tab complete of "/sk" or "/skript":
+	set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
+	if tab arg-1 = "reload" or "disable":
+		set tab completions for position 2 to enabled scripts
+	if tab arg-1 = "enable":
+		set tab completions for position 2 to disabled scripts
+
+#
+#	Commands
+#
+
+# Amethyst Command
+command /amethyst:
+	trigger:
+		send "&dThis server is running version &5{@version}&d of &5Amethyst&d!"
+		if {{@storage}::cache::errors} > 0:
+			send "&cWarning! &4%{{@storage}::cache::errors}%&c errors have been found!"
